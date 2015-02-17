@@ -85,7 +85,7 @@
       <capability>
         <inputs/>
         <outputs>
-          <type allAnnotatorFeatures="true">org.dbpedia.spotlight.uima.types.JCasResource</type>
+          <type allAnnotatorFeatures="true">org.dbpedia.spotlight.uima.types.DBpediaResource</type>
         </outputs>
         <languagesSupported/>
       </capability>

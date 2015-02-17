@@ -15,7 +15,7 @@ import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.jcas.JCas;
 import org.dbpedia.spotlight.uima.response.Annotation;
 import org.dbpedia.spotlight.uima.response.Resource;
-import org.dbpedia.spotlight.uima.types.JCasResource;
+import org.dbpedia.spotlight.uima.types.DBpediaResource;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
@@ -154,7 +154,7 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 					 * Add the results to the AnnotationIndex
 					 */
 					for (Resource resource : response.getResources()) {
-						JCasResource res = new JCasResource(aJCas);
+						DBpediaResource res = new DBpediaResource(aJCas);
 						res.setBegin(documentOffset + new Integer(resource.getOffset()));
 						res.setEnd(documentOffset + new Integer(resource.getOffset())
 						+ resource.getSurfaceForm().length());

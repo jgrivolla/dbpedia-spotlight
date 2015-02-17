@@ -5,7 +5,7 @@
   <vendor/>
       <types>
         <typeDescription>
-          <name>org.dbpedia.spotlight.uima.types.JCasResource</name>
+          <name>org.dbpedia.spotlight.uima.types.DBpediaResource</name>
           <description/>
           <supertypeName>uima.tcas.Annotation</supertypeName>
           <features>

@@ -1,9 +1,9 @@
 package org.dbpedia.spotlight.uima;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.URLEncoder;
 
 import javax.ws.rs.core.MediaType;
 
@@ -12,10 +12,14 @@ import org.apache.log4j.Logger;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
 import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.jcas.JCas;
-import org.dbpedia.spotlight.uima.response.Annotation;
-import org.dbpedia.spotlight.uima.response.Resource;
+import org.apache.uima.resource.ResourceInitializationException;
+import org.dbpedia.spotlight.uima.response.CandidateAnnotation;
+import org.dbpedia.spotlight.uima.response.CandidateResource;
+import org.dbpedia.spotlight.uima.response.CandidateSurfaceForm;
 import org.dbpedia.spotlight.uima.types.DBpediaResource;
+import org.xml.sax.SAXException;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
@@ -35,12 +39,13 @@ import com.sun.jersey.api.client.WebResource;
 public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 
 	Logger LOG = Logger.getLogger(this.getClass());
-	
-	public static final String PARAM_ENDPOINT = "endPoint";
-	@ConfigurationParameter(name=PARAM_ENDPOINT)
-	private String SPOTLIGHT_ENDPOINT;
 
-	// Default values for the web service parameters for the spotlight endpoint
+	/**
+	 * The endpoint for Spotlight Annotate service
+	 */
+	public static final String PARAM_ENDPOINT = "endPoint";
+	@ConfigurationParameter(name=PARAM_ENDPOINT, defaultValue="http://spotlight.dbpedia.org/rest/", description="The endpoint for Spotlight Annotate service")
+	private String SPOTLIGHT_ENDPOINT;
 
 	public static final String PARAM_CONFIDENCE = "confidence";
 	@ConfigurationParameter(name=PARAM_CONFIDENCE, defaultValue="0.0")
@@ -66,6 +71,9 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 	public static final String PARAM_DISAMBIGUATOR = "disambiguator";
 	@ConfigurationParameter(name=PARAM_DISAMBIGUATOR, defaultValue="Default")
 	private String DISAMBIGUATOR;
+	public static final String PARAM_ALL_CANDIDATES = "allCandidates";
+	@ConfigurationParameter(name=PARAM_ALL_CANDIDATES, defaultValue="false", description="output all candidate annotations")
+	private boolean ALL_CANDIDATES;
 
 	private final int BATCH_SIZE = 10; 
 
@@ -106,8 +114,8 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 			if (StringUtils.isBlank(request)) {
 				continue;
 			}
-			
-			Annotation response = null;
+
+			CandidateAnnotation response = null;
 			boolean retry = false;
 			int retryCount = 0;
 			do{
@@ -115,21 +123,22 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 
 					LOG.info("Sending request to the server");
 
-					WebResource r = c.resource(SPOTLIGHT_ENDPOINT);
-					response =
-							r.queryParam("text", request)
+					WebResource r = 
+							c.resource(SPOTLIGHT_ENDPOINT+"/candidates")
+							.queryParam("text", request)
 							.queryParam("confidence", "" + CONFIDENCE)
 							.queryParam("support", "" + SUPPORT)
 							.queryParam("types", TYPES)
 							.queryParam("sparql", SPARQL)
 							.queryParam("policy", POLICY)
-							.queryParam("coreferenceResolution",
-									Boolean.toString(COREFERENCE_RESOLUTION))
+							.queryParam("coreferenceResolution", Boolean.toString(COREFERENCE_RESOLUTION))
 							.queryParam("spotter", SPOTTER)
-							.queryParam("disambiguator", DISAMBIGUATOR)
-							.type("application/x-www-form-urlencoded;charset=UTF-8")
+							.queryParam("disambiguator", DISAMBIGUATOR);
+					LOG.info(r.getURI());
+					response =
+							r.type("application/x-www-form-urlencoded;charset=UTF-8")
 							.accept(MediaType.TEXT_XML)
-							.post(Annotation.class);
+							.post(CandidateAnnotation.class);
 					retry = false;
 				} catch (Exception e){
 					//In case of a failure, try sending the request with a 2 second delay at least three times before throwing an exception
@@ -148,25 +157,34 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 					}
 				}
 			}while(retry);
-					
-					LOG.info("Server request completed. Writing to the index");
-					/*
-					 * Add the results to the AnnotationIndex
-					 */
-					for (Resource resource : response.getResources()) {
-						DBpediaResource res = new DBpediaResource(aJCas);
-						res.setBegin(documentOffset + new Integer(resource.getOffset()));
-						res.setEnd(documentOffset + new Integer(resource.getOffset())
-						+ resource.getSurfaceForm().length());
-						res.setSimilarityScore(new Double(resource.getSimilarityScore()));
-						res.setTypes(resource.getTypes());
-						res.setSupport(new Integer(resource.getSupport()));
-						res.setURI(resource.getURI());
 
-						res.addToIndexes(aJCas);
-					}
+			LOG.info("Server request completed. Writing to the index");
+			/*
+			 * Add the results to the AnnotationIndex
+			 */
+			for (CandidateSurfaceForm surfaceForm : response.getSurfaceForms()) {
+				Integer begin = documentOffset + surfaceForm.getOffset();
+				Integer end = begin + surfaceForm.getName().length();
+				LOG.info("surfaceForm: " + surfaceForm.getName());
+				for (CandidateResource resource : surfaceForm.getResources()) {
+					DBpediaResource res = new DBpediaResource(aJCas);
+					res.setBegin(begin);
+					res.setEnd(end);
+					res.setFinalScore(resource.getFinalScore());
+					res.setTypes(resource.getTypes());
+					res.setSupport(resource.getSupport());
+					res.setUri(resource.getUri());
+					res.setLabel(resource.getLabel());
+					res.setPercentageOfSecondRank(resource.getPercentageOfSecondRank());
+					res.setPriorScore(resource.getPriorScore());
+					res.setContextualScore(resource.getContextualScore());
+					LOG.info("resource:\n" + res.toString(2) + "\n\n");
+					res.addToIndexes(aJCas);
+					if (!ALL_CANDIDATES) break; // only return best candidate
+				}
+			}
 
-					documentOffset += request.length() + 1 ;
+			documentOffset += request.length() + 1 ;
 
 		}
 		try {
@@ -176,5 +194,15 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * return example descriptor (XML) when calling main method
+	 * @param args not used
+	 * @throws ResourceInitializationException
+	 * @throws FileNotFoundException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static void main(String[] args) throws ResourceInitializationException, FileNotFoundException, SAXException, IOException {
+		AnalysisEngineFactory.createEngineDescription(SpotlightAnnotator.class).toXML(System.out);
+	}
 }

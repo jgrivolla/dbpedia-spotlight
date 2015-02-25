@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <name>SpotlightTypeSystemDescriptor</name>
   <description/>
   <version>1.0</version>
@@ -10,7 +11,7 @@
           <supertypeName>uima.tcas.Annotation</supertypeName>
           <features>
             <featureDescription>
-              <name>similarityScore</name>
+              <name>finalScore</name>
               <description/>
               <rangeTypeName>uima.cas.Double</rangeTypeName>
             </featureDescription>
@@ -25,11 +26,31 @@
               <rangeTypeName>uima.cas.String</rangeTypeName>
             </featureDescription>
             <featureDescription>
-              <name>URI</name>
+              <name>uri</name>
               <description/>
               <rangeTypeName>uima.cas.String</rangeTypeName>
             </featureDescription>
-          </features>
+          <featureDescription>
+          <name>label</name>
+          <description/>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>percentageOfSecondRank</name>
+          <description/>
+          <rangeTypeName>uima.cas.Double</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>contextualScore</name>
+          <description/>
+          <rangeTypeName>uima.cas.Double</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>priorScore</name>
+          <description/>
+          <rangeTypeName>uima.cas.Double</rangeTypeName>
+        </featureDescription>
+      </features>
         </typeDescription>
       </types>
   

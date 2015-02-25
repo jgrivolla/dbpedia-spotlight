@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Tue Feb 17 16:58:12 CET 2015
+ * Updated by JCasGen Tue Feb 24 10:25:26 CET 2015
  * @generated */
 public class DBpediaResource_Type extends Annotation_Type {
   /** @generated 
@@ -47,26 +47,26 @@ public class DBpediaResource_Type extends Annotation_Type {
   public final static boolean featOkTst = JCasRegistry.getFeatOkTst("org.dbpedia.spotlight.uima.types.DBpediaResource");
  
   /** @generated */
-  final Feature casFeat_similarityScore;
+  final Feature casFeat_finalScore;
   /** @generated */
-  final int     casFeatCode_similarityScore;
+  final int     casFeatCode_finalScore;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
-  public double getSimilarityScore(int addr) {
-        if (featOkTst && casFeat_similarityScore == null)
-      jcas.throwFeatMissing("similarityScore", "org.dbpedia.spotlight.uima.types.DBpediaResource");
-    return ll_cas.ll_getDoubleValue(addr, casFeatCode_similarityScore);
+  public double getFinalScore(int addr) {
+        if (featOkTst && casFeat_finalScore == null)
+      jcas.throwFeatMissing("finalScore", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_finalScore);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
-  public void setSimilarityScore(int addr, double v) {
-        if (featOkTst && casFeat_similarityScore == null)
-      jcas.throwFeatMissing("similarityScore", "org.dbpedia.spotlight.uima.types.DBpediaResource");
-    ll_cas.ll_setDoubleValue(addr, casFeatCode_similarityScore, v);}
+  public void setFinalScore(int addr, double v) {
+        if (featOkTst && casFeat_finalScore == null)
+      jcas.throwFeatMissing("finalScore", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_finalScore, v);}
     
   
  
@@ -119,26 +119,122 @@ public class DBpediaResource_Type extends Annotation_Type {
   
  
   /** @generated */
-  final Feature casFeat_URI;
+  final Feature casFeat_uri;
   /** @generated */
-  final int     casFeatCode_URI;
+  final int     casFeatCode_uri;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
-  public String getURI(int addr) {
-        if (featOkTst && casFeat_URI == null)
-      jcas.throwFeatMissing("URI", "org.dbpedia.spotlight.uima.types.DBpediaResource");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_URI);
+  public String getUri(int addr) {
+        if (featOkTst && casFeat_uri == null)
+      jcas.throwFeatMissing("uri", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_uri);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
-  public void setURI(int addr, String v) {
-        if (featOkTst && casFeat_URI == null)
-      jcas.throwFeatMissing("URI", "org.dbpedia.spotlight.uima.types.DBpediaResource");
-    ll_cas.ll_setStringValue(addr, casFeatCode_URI, v);}
+  public void setUri(int addr, String v) {
+        if (featOkTst && casFeat_uri == null)
+      jcas.throwFeatMissing("uri", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    ll_cas.ll_setStringValue(addr, casFeatCode_uri, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_label;
+  /** @generated */
+  final int     casFeatCode_label;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public String getLabel(int addr) {
+        if (featOkTst && casFeat_label == null)
+      jcas.throwFeatMissing("label", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_label);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setLabel(int addr, String v) {
+        if (featOkTst && casFeat_label == null)
+      jcas.throwFeatMissing("label", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    ll_cas.ll_setStringValue(addr, casFeatCode_label, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_percentageOfSecondRank;
+  /** @generated */
+  final int     casFeatCode_percentageOfSecondRank;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public double getPercentageOfSecondRank(int addr) {
+        if (featOkTst && casFeat_percentageOfSecondRank == null)
+      jcas.throwFeatMissing("percentageOfSecondRank", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_percentageOfSecondRank);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setPercentageOfSecondRank(int addr, double v) {
+        if (featOkTst && casFeat_percentageOfSecondRank == null)
+      jcas.throwFeatMissing("percentageOfSecondRank", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_percentageOfSecondRank, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_contextualScore;
+  /** @generated */
+  final int     casFeatCode_contextualScore;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public double getContextualScore(int addr) {
+        if (featOkTst && casFeat_contextualScore == null)
+      jcas.throwFeatMissing("contextualScore", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_contextualScore);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setContextualScore(int addr, double v) {
+        if (featOkTst && casFeat_contextualScore == null)
+      jcas.throwFeatMissing("contextualScore", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_contextualScore, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_priorScore;
+  /** @generated */
+  final int     casFeatCode_priorScore;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public double getPriorScore(int addr) {
+        if (featOkTst && casFeat_priorScore == null)
+      jcas.throwFeatMissing("priorScore", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_priorScore);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setPriorScore(int addr, double v) {
+        if (featOkTst && casFeat_priorScore == null)
+      jcas.throwFeatMissing("priorScore", "org.dbpedia.spotlight.uima.types.DBpediaResource");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_priorScore, v);}
     
   
 
@@ -154,8 +250,8 @@ public class DBpediaResource_Type extends Annotation_Type {
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
  
-    casFeat_similarityScore = jcas.getRequiredFeatureDE(casType, "similarityScore", "uima.cas.Double", featOkTst);
-    casFeatCode_similarityScore  = (null == casFeat_similarityScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_similarityScore).getCode();
+    casFeat_finalScore = jcas.getRequiredFeatureDE(casType, "finalScore", "uima.cas.Double", featOkTst);
+    casFeatCode_finalScore  = (null == casFeat_finalScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_finalScore).getCode();
 
  
     casFeat_support = jcas.getRequiredFeatureDE(casType, "support", "uima.cas.Integer", featOkTst);
@@ -166,8 +262,24 @@ public class DBpediaResource_Type extends Annotation_Type {
     casFeatCode_types  = (null == casFeat_types) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_types).getCode();
 
  
-    casFeat_URI = jcas.getRequiredFeatureDE(casType, "URI", "uima.cas.String", featOkTst);
-    casFeatCode_URI  = (null == casFeat_URI) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_URI).getCode();
+    casFeat_uri = jcas.getRequiredFeatureDE(casType, "uri", "uima.cas.String", featOkTst);
+    casFeatCode_uri  = (null == casFeat_uri) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_uri).getCode();
+
+ 
+    casFeat_label = jcas.getRequiredFeatureDE(casType, "label", "uima.cas.String", featOkTst);
+    casFeatCode_label  = (null == casFeat_label) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_label).getCode();
+
+ 
+    casFeat_percentageOfSecondRank = jcas.getRequiredFeatureDE(casType, "percentageOfSecondRank", "uima.cas.Double", featOkTst);
+    casFeatCode_percentageOfSecondRank  = (null == casFeat_percentageOfSecondRank) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_percentageOfSecondRank).getCode();
+
+ 
+    casFeat_contextualScore = jcas.getRequiredFeatureDE(casType, "contextualScore", "uima.cas.Double", featOkTst);
+    casFeatCode_contextualScore  = (null == casFeat_contextualScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_contextualScore).getCode();
+
+ 
+    casFeat_priorScore = jcas.getRequiredFeatureDE(casType, "priorScore", "uima.cas.Double", featOkTst);
+    casFeatCode_priorScore  = (null == casFeat_priorScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_priorScore).getCode();
 
   }
 }

@@ -52,6 +52,11 @@
         </featureDescription>
       </features>
         </typeDescription>
-      </types>
+      <typeDescription>
+      <name>org.dbpedia.spotlight.uima.types.TopDBpediaResource</name>
+      <description>top candidate (best ranked)</description>
+      <supertypeName>org.dbpedia.spotlight.uima.types.DBpediaResource</supertypeName>
+    </typeDescription>
+  </types>
   
 </typeSystemDescription>

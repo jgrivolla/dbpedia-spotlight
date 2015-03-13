@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Tue Feb 24 10:25:26 CET 2015
+ * Updated by JCasGen Tue Mar 03 11:10:22 CET 2015
  * @generated */
 public class DBpediaResource_Type extends Annotation_Type {
   /** @generated 

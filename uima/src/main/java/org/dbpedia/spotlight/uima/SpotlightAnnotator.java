@@ -19,6 +19,7 @@ import org.dbpedia.spotlight.uima.response.CandidateAnnotation;
 import org.dbpedia.spotlight.uima.response.CandidateResource;
 import org.dbpedia.spotlight.uima.response.CandidateSurfaceForm;
 import org.dbpedia.spotlight.uima.types.DBpediaResource;
+import org.dbpedia.spotlight.uima.types.TopDBpediaResource;
 import org.xml.sax.SAXException;
 
 import com.sun.jersey.api.client.Client;
@@ -166,8 +167,14 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 				Integer begin = documentOffset + surfaceForm.getOffset();
 				Integer end = begin + surfaceForm.getName().length();
 				LOG.info("surfaceForm: " + surfaceForm.getName());
+				Boolean isFirst = true;
 				for (CandidateResource resource : surfaceForm.getResources()) {
-					DBpediaResource res = new DBpediaResource(aJCas);
+					DBpediaResource res;
+					if (isFirst) {
+						res = new TopDBpediaResource(aJCas);
+					} else {
+						res = new DBpediaResource(aJCas);
+					}
 					res.setBegin(begin);
 					res.setEnd(end);
 					res.setFinalScore(resource.getFinalScore());
@@ -181,6 +188,7 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 					LOG.info("resource:\n" + res.toString(2) + "\n\n");
 					res.addToIndexes(aJCas);
 					if (!ALL_CANDIDATES) break; // only return best candidate
+					isFirst = false;
 				}
 			}
 

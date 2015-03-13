@@ -11,7 +11,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Tue Feb 24 10:25:26 CET 2015
+ * Updated by JCasGen Tue Mar 03 11:10:22 CET 2015
  * XML source: /home/jgrivolla/GitHub/dbpedia-spotlight/uima/src/main/resources/org/dbpedia/spotlight/uima/types/SpotlightTypeSystemDescriptor.xml
  * @generated */
 public class DBpediaResource extends Annotation {

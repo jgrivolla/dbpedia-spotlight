@@ -159,14 +159,14 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 				}
 			}while(retry);
 
-			LOG.info("Server request completed. Writing to the index");
+			LOG.debug("Server request completed. Writing to the index");
 			/*
 			 * Add the results to the AnnotationIndex
 			 */
 			for (CandidateSurfaceForm surfaceForm : response.getSurfaceForms()) {
 				Integer begin = documentOffset + surfaceForm.getOffset();
 				Integer end = begin + surfaceForm.getName().length();
-				LOG.info("surfaceForm: " + surfaceForm.getName());
+				LOG.debug("surfaceForm: " + surfaceForm.getName());
 				Boolean isFirst = true;
 				for (CandidateResource resource : surfaceForm.getResources()) {
 					DBpediaResource res;
@@ -185,7 +185,7 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 					res.setPercentageOfSecondRank(resource.getPercentageOfSecondRank());
 					res.setPriorScore(resource.getPriorScore());
 					res.setContextualScore(resource.getContextualScore());
-					LOG.info("resource:\n" + res.toString(2) + "\n\n");
+					LOG.debug("resource:\n" + res.toString(2) + "\n\n");
 					res.addToIndexes(aJCas);
 					if (!ALL_CANDIDATES) break; // only return best candidate
 					isFirst = false;

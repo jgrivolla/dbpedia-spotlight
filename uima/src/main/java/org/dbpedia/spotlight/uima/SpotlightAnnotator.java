@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.URLEncoder;
 
 import javax.ws.rs.core.MediaType;
 
@@ -126,7 +127,7 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 
 					WebResource r = 
 							c.resource(SPOTLIGHT_ENDPOINT+"/candidates")
-							.queryParam("text", request)
+							.queryParam("text", URLEncoder.encode(request, "UTF-8"))
 							.queryParam("confidence", "" + CONFIDENCE)
 							.queryParam("support", "" + SUPPORT)
 							.queryParam("types", TYPES)

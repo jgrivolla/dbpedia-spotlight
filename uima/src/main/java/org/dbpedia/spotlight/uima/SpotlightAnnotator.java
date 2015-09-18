@@ -127,7 +127,14 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 
 					WebResource r = 
 							c.resource(SPOTLIGHT_ENDPOINT+"/candidates")
-							.queryParam("text", URLEncoder.encode(request, "UTF-8"))
+							// Crazy workaround because Jersey will not encode things that look like
+							// %-encoded unsafe characters. If such sequences actually appears, invalid
+							// characters may result when interpreting it as an already encoded character,
+							// breaking everything.
+							// However, URLEncoder.encode() replaces spaces with '+' which does get
+							// encoded as %2B by Jersey. Having the encoded as %20 should prevent Jersey
+							// from messing things up.
+							.queryParam("text", URLEncoder.encode(request, "UTF-8").replaceAll("\\+", "%20"))
 							.queryParam("confidence", "" + CONFIDENCE)
 							.queryParam("support", "" + SUPPORT)
 							.queryParam("types", TYPES)

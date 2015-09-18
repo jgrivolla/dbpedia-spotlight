@@ -1,53 +1,70 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-  	<groupId>org.dbpedia.spotlight</groupId>
-  	<artifactId>spotlight</artifactId>
-  	<version>0.7</version>
-	<relativePath>../pom.xml</relativePath>
-  </parent>
-
-  
-  <artifactId>uima</artifactId>
-  <name>DBpedia Spotlight UIMA Integration</name>
- 
-  <properties>
-       <spotlight.basedir>${project.basedir}/..</spotlight.basedir>
-  </properties>
-  
-  <dependencies>
-     <dependency>
-	<groupId>log4j</groupId>
-	<artifactId>log4j</artifactId>
-     </dependency>
-     <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-bundle</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-client</artifactId>
-      </dependency>
-      <dependency>
-   	<groupId>org.apache.uima</groupId>
-   	<artifactId>uimaj-core</artifactId>
-   	<scope>provided</scope>
-      </dependency>
-      <dependency>
-      	<groupId>org.apache.uima</groupId>
-      	<artifactId>uimafit-core</artifactId>
-      	<version>2.0.0</version>
-      </dependency>
-      <dependency>
-		<groupId>org.projectlombok</groupId>
-		<artifactId>lombok</artifactId>
-		<version>1.16.2</version>
-		<scope>provided</scope>
-	</dependency>
-  </dependencies>
- 
+	<parent>
+		<groupId>org.dbpedia.spotlight</groupId>
+		<artifactId>spotlight</artifactId>
+		<version>0.7</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 
 
-  <version>0.8-SNAPSHOT</version>
+	<artifactId>uima</artifactId>
+	<name>DBpedia Spotlight UIMA Integration</name>
+	<version>0.8-SNAPSHOT</version>
+
+	<properties>
+		<spotlight.basedir>${project.basedir}/..</spotlight.basedir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-bundle</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimaj-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimafit-core</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.2</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>scala-maven-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>scala-compile-first</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URLEncoder;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
@@ -80,6 +82,8 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 	private final int BATCH_SIZE = 10; 
 
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+		ScoreComparator scoreComparator = new ScoreComparator(); 
+		
 		String documentText = aJCas.getDocumentText();
 
 		// don't query endpoint without text
@@ -176,7 +180,9 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 				Integer end = begin + surfaceForm.getName().length();
 				LOG.debug("surfaceForm: " + surfaceForm.getName());
 				Boolean isFirst = true;
-				for (CandidateResource resource : surfaceForm.getResources()) {
+				List<CandidateResource> resources = surfaceForm.getResources();
+				resources.sort(scoreComparator);
+				for (CandidateResource resource : resources) {
 					DBpediaResource res;
 					if (isFirst) {
 						res = new TopDBpediaResource(aJCas);
@@ -210,6 +216,15 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 			e.printStackTrace();
 		}
 	}
+	
+	public class ScoreComparator implements Comparator<CandidateResource> {
+		public int compare(CandidateResource c1, CandidateResource c2) {
+			return (c2.getFinalScore().compareTo(c1.getFinalScore()));
+		}
+	}
+
+	
+	
 	/**
 	 * return example descriptor (XML) when calling main method
 	 * @param args not used

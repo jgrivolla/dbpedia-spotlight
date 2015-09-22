@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URLEncoder;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -181,7 +182,7 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 				LOG.debug("surfaceForm: " + surfaceForm.getName());
 				Boolean isFirst = true;
 				List<CandidateResource> resources = surfaceForm.getResources();
-				resources.sort(scoreComparator);
+				Collections.sort(resources, scoreComparator);
 				for (CandidateResource resource : resources) {
 					DBpediaResource res;
 					if (isFirst) {

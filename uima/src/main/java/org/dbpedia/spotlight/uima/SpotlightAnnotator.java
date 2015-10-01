@@ -28,6 +28,7 @@ import org.xml.sax.SAXException;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.representation.Form;
 
 
 /**
@@ -128,31 +129,27 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 			do{
 				try{
 
-					LOG.info("Sending request to the server");
+					LOG.debug("Sending request to the server");
 
+					Form form = new Form();
+					form.add("text", request);
+					form.add("confidence", "" + CONFIDENCE);
+					form.add("support", "" + SUPPORT);
+					form.add("types", TYPES);
+					form.add("sparql", SPARQL);
+					form.add("policy", POLICY);
+					form.add("coreferenceResolution", Boolean.toString(COREFERENCE_RESOLUTION));
+					form.add("spotter", SPOTTER);
+					form.add("disambiguator", DISAMBIGUATOR);
+					
 					WebResource r = 
-							c.resource(SPOTLIGHT_ENDPOINT+"/candidates")
-							// Crazy workaround because Jersey will not encode things that look like
-							// %-encoded unsafe characters. If such sequences actually appears, invalid
-							// characters may result when interpreting it as an already encoded character,
-							// breaking everything.
-							// However, URLEncoder.encode() replaces spaces with '+' which does get
-							// encoded as %2B by Jersey. Having the encoded as %20 should prevent Jersey
-							// from messing things up.
-							.queryParam("text", URLEncoder.encode(request, "UTF-8").replaceAll("\\+", "%20"))
-							.queryParam("confidence", "" + CONFIDENCE)
-							.queryParam("support", "" + SUPPORT)
-							.queryParam("types", TYPES)
-							.queryParam("sparql", SPARQL)
-							.queryParam("policy", POLICY)
-							.queryParam("coreferenceResolution", Boolean.toString(COREFERENCE_RESOLUTION))
-							.queryParam("spotter", SPOTTER)
-							.queryParam("disambiguator", DISAMBIGUATOR);
-					LOG.info(r.getURI());
+							c.resource(SPOTLIGHT_ENDPOINT+"/candidates");
+					LOG.debug(r.getURI());
+					LOG.debug(form);
 					response =
 							r.type("application/x-www-form-urlencoded;charset=UTF-8")
 							.accept(MediaType.TEXT_XML)
-							.post(CandidateAnnotation.class);
+							.post(CandidateAnnotation.class, form);
 					retry = false;
 				} catch (Exception e){
 					//In case of a failure, try sending the request with a 2 second delay at least three times before throwing an exception

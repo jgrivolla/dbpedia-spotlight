@@ -81,7 +81,7 @@ public class SpotlightAnnotator extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(name=PARAM_ALL_CANDIDATES, defaultValue="false", description="output all candidate annotations")
 	private boolean ALL_CANDIDATES;
 
-	private final int BATCH_SIZE = 10; 
+	private final int BATCH_SIZE = 100; 
 
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		ScoreComparator scoreComparator = new ScoreComparator(); 
